@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Beerwaroff Booking</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link th:href = "@{/css/rooms/show.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="to_hotels">
+  <a th:href="@{/hotels}" th:text="Отели"></a>
+</div>
+
+<span sec:authorize="isAuthenticated()">
+  <span style="text-align:right; font-family: 'Times New Roman', Times, Serif; font-size: 16px;">
+    <form th:action="@{/logout}" method="post">
+      <input style="width: 150px;  height: 24px;" type="submit" value="Выйти"/>
+    </form>
+  </span>
+</span>
+<span sec:authorize="isAnonymous()">
+  <span style="text-align:right; font-family: 'Times New Roman', Times, Serif; font-size: 16px;">
+    <form th:action="@{/login}" method="get">
+      <input style="width: 150px; height: 24px; margin-bottom: 8px" type="submit" value="Войти"/>
+    </form>
+    <form th:action="@{/registration}" method="get">
+      <input style="width: 150px;  height: 24px;" type="submit" value="Зарегистрироваться"/>
+    </form>
+  </span>
+</span>
+<h2>
+  <a th:href="@{/rooms/{id_hotel}(id_hotel=*{hotel.id})}" th:text="*{hotel.name}"></a>
+</h2>
+<div sec:authorize="hasRole('ROLE_ADMIN')">
+  <div class="add_room">
+    <form method="post" th:action="@{/rooms/{id_hotel}(id_hotel=${room.getHotel().getId()})}" th:object="${room}">
+      <span>
+        <select type="text" placeholder="Комфортность" th:field="*{comfort}">
+          <option th:value="Эконом" th:text="Эконом"></option>
+          <option th:value="Комфорт" th:text="Комфорт"></option>
+          <option th:value="Люкс" th:text="Люкс"></option>
+        </select>
+        <input type="text" placeholder="Номер комнаты" th:field="*{roomNumber}"/>
+        <input type="text" placeholder="Количество мест" th:field="*{numberOfSeats}"/>
+        <input type="text" placeholder="Цена" th:field="*{price}"/>
+      </span>
+      <input type="submit" value="Добавить комнату"/>
+      <div style="color: red" th:if="${#fields.hasErrors('numberOfSeats')}" th:errors="*{numberOfSeats}"></div>
+      <div style="color: red" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+    </form>
+  </div>
+
+  <div class="add_room">
+
+      <form style="margin-bottom: 16px" method="get" th:action="@{/rooms/{id_hotel}/(id_hotel=${hotel.getId()})}">
+        <select type="text" placeholder="Комфортность" name="comfort">
+          <option th:value="Эконом" th:text="Эконом"></option>
+          <option th:value="Комфорт" th:text="Комфорт"></option>
+          <option th:value="Люкс" th:text="Люкс"></option>
+        </select>
+        <input type="submit" value="Поиск по уровню комфорта"/>
+      </form>
+
+  </div>
+</div>
+
+<div class="att_room" th:each="room : ${rooms}">
+  <div>
+    <img th:src="@{${room.getImage()?.getPath()}}" width="400" heigh="250"/>
+  </div>
+  <div>Комфортность: <span th:text="${room.getComfort()}"></span></div>
+  <div>Номер комнаты: <span th:text="${room.getRoomNumber()}"></span></div>
+  <div>Количество мест: <span th:text="${room.getNumberOfSeats()}"></span></div>
+  <div>Цена: <span th:text="${room.getPrice()}"></span> рублей</div>
+
+  <div sec:authorize="hasRole('ROLE_USER')">
+
+    <form method="post" th:action="@{/booking}" th:object="${offer}">
+      <input type="hidden" name="*{room.getId()}"/>
+      <span><label>Дата заезда: </label><input type="date" th:field="*{checkInDate}"/></span>
+      <span><label>Дата выселения: </label><input type="date" th:field="*{evictionDate}"/></span>
+      <input type="submit" value="Забронировать"/>
+    </form>
+
+  </div>
+
+  <div sec:authorize="hasRole('ROLE_ADMIN')">
+    <span>
+      <form method="get" th:action="@{/rooms/update/{id}(id=${room.getId()})}">
+        <input type="submit" value="Изменить"/>
+      </form>
+    </span>
+    <span>
+      <form method="post" th:action="@{/rooms/delete/{id}(id=${room.getId()})}">
+          <input type="submit" value="Удалить"/>
+      </form>
+    </span>
+  </div>
+
+</div>
+
+</body>
+</html>

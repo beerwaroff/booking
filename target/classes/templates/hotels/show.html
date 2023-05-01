@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Beerwaroff Booking</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href = "@{/css/hotels/show.css}" rel="stylesheet">
+</head>
+<body>
+    <span sec:authorize="isAuthenticated()">
+      <span style="text-align:right; font-family: 'Times New Roman', Times, Serif; font-size: 16px;">
+        <form th:action="@{/logout}" method="post">
+          <input style="width: 150px;  height: 24px;" type="submit" value="Выйти"/>
+        </form>
+      </span>
+    </span>
+    <span sec:authorize="isAnonymous()">
+      <span style="text-align:right; font-family: 'Times New Roman', Times, Serif; font-size: 16px;">
+        <form th:action="@{/login}" method="get">
+          <input style="width: 150px; height: 24px; margin-bottom: 8px" type="submit" value="Войти"/>
+        </form>
+        <form th:action="@{/registration}" method="get">
+          <input style="width: 150px;  height: 24px;" type="submit" value="Зарегистрироваться"/>
+        </form>
+      </span>
+    </span>
+    <h1 style="text-align: center"><a th:href="@{/hotels}">Отели</a></h1>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <div class="add_hotel">
+            <form method="post" th:action="@{/hotels}" th:object="${hotel}">
+                <span th:field="*{address}">
+                    <input type="text" placeholder="Город" th:field="*{address.city}"/>
+                    <input type="text" placeholder="Улица" th:field="*{address.street}"/>
+                    <input type="text" placeholder="Дом" th:field="*{address.house}"/>
+                </span>
+
+                <span>
+                    <input type="text" placeholder="Название отеля" th:field="*{name}"/>
+                    <select type="text" placeholder="Количество звезд" th:field="*{numberOfStars}">
+                        <option th:value="1" th:text="1"></option>
+                        <option th:value="2" th:text="2"></option>
+                        <option th:value="3" th:text="3"></option>
+                        <option th:value="4" th:text="4"></option>
+                        <option th:value="5" th:text="5"></option>
+                    </select>
+                </span>
+
+                <input type="submit" value="Добавить отель"/>
+                <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            </form>
+        </div>
+
+        <div class="add_hotel">
+            <form method="get" th:action="@{/hotels/{city}(city=${city})}">
+                <input type="text" placeholder="Город" name="city">
+                <input type="submit" value="Поиск по городу"/>
+            </form>
+        </div>
+    </div>
+    <div class="att_hotel" th:each="hotel : ${hotels}">
+        <div>
+            <img th:src="@{${hotel.getImage()?.getPath()}}" width="400" heigh="250"/>
+        </div>
+        <div>
+            <b>Название отеля: </b>
+            <a th:href="@{/rooms/{id_hotel}(id_hotel=${hotel.getId()})}" th:text="${hotel.getName()}"></a>
+        </div>
+
+        <div>Количество звезд: <span th:text="${hotel.getNumberOfStars()}" ></span></div>
+
+        <div>Адрес:
+            <span th:text="${hotel.getAddress()?.getCity()}"></span>,
+            <span th:text="${hotel.getAddress()?.getStreet()}"></span>,
+            <span th:text="${hotel.getAddress()?.getHouse()}"></span>
+        </div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')">
+            <div>
+                <span>
+                    <form method="get" th:action="@{/hotels/update/{id}(id=${hotel.getId()})}">
+                        <input type="submit" value="Изменить"/>
+                    </form>
+                </span>
+
+                <span>
+                    <form method="post" th:action="@{/hotels/delete/{id}(id=${hotel.getId()})}">
+                        <input type="submit" value="Удалить"/>
+                    </form>
+                </span>
+            </div>
+        </div>
+        <br/>
+    </div>
+
+
+
+</body>
+</html>

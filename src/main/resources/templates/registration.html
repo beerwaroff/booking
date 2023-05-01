@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <title>Beerwaroff Booking</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div style="text-align:left; font-family: 'Times New Roman', Times, Serif; font-size: 32px;"><a th:href="@{/hotels}">ОТЕЛИ</a></div>
+  <div style="width: 200px; height: 250px; margin: 0 auto; margin-bottom: 8px; text-align: left;">
+    <h1 style="text-align: center"><b>Регистрация</b></h1>
+    <div style="color: red" th:if="${user_exists}" th:text="${user_exists}"></div>
+    <div style="color: red" th:if="${passwords_do_not_match}" th:text="${passwords_do_not_match}"></div>
+    <div style="color: red" th:if="${name_error}" th:text="${name_error}"></div>
+    <div>
+      <form method="post" th:action="@{/registration}" th:object="${user}">
+        <div th:field="*{fullName}">
+          <div style="margin-bottom: 8px;"><input type="text" placeholder="Фамилия" th:field="*{fullName.surname}"/></div>
+          <div style="margin-bottom: 8px;"><input type="text" placeholder="Имя" th:field="*{fullName.firstname}"/></div>
+          <div style="margin-bottom: 8px;"><input type="text" placeholder="Отчетсво" th:field="*{fullName.patronymic}"/></div>
+        </div>
+        <div style="margin-bottom: 8px;"><input type="text" placeholder="Телефон" th:field="*{phoneNumber}"/></div>
+        <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+        <div style="margin-bottom: 8px;"><input type="text" placeholder="Почта" th:field="*{email}"/></div>
+        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        <div style="margin-bottom: 8px;"><input type="password" placeholder="Пароль" th:field="*{password}"/></div>
+
+        <div style="margin-bottom: 8px;"><input type="password" placeholder="Повторите пароль" th:field="*{passwordConfirm}"/></div>
+
+        <div style="margin-bottom: 8px;"><input style="width: 150px; height: 24px; margin-bottom: 8px" type="submit" value="Зарегистрироваться"/></div>
+      </form>
+    </div>
+
+    <form method="get" th:action="@{/login}">
+      <input style="width: 150px; height: 24px; margin-bottom: 8px" type="submit" value="Войти"/>
+    </form>
+  </div>
+</body>
+</html>

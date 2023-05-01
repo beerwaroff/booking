@@ -1,0 +1,28 @@
+body {
+    font-family: 'Times New Roman', Times, Serif;
+    font-size: 16px;
+}
+
+h1 {
+    text-transform: uppercase;
+}
+
+.up_hotel {
+    text-align: center;
+}
+
+.room_img {
+    margin-bottom: 24px;
+}
+.upload_img {
+    width: 400px;
+    height: 250opx;
+    margin: 0 auto;
+    margin-top: 12px;
+    text-align: left;
+}
+
+.to_hotel {
+    text-transform: uppercase;
+    font-size: 24px;
+}

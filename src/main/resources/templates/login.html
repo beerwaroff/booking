@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Beerwaroff Booking</title>
+</head>
+<body>
+  <div style="text-align:left; font-family: 'Times New Roman', Times, Serif; font-size: 32px;"><a th:href="@{/hotels}">ОТЕЛИ</a></div>
+  <div style="width: 200px; height: 250px; margin: 0 auto; margin-bottom: 8px; text-align: left;">
+    <h1 style="text-align: center; font-family: 'Times New Roman', Times, Serif; font-size: 16px;"><b>Авторизация</b></h1>
+    <form th:action="@{/login}" method="post">
+      <div style="margin-bottom: 8px;"><input style="width: 150px; height: 24px; margin-bottom: 8px" type="text" placeholder="Почта" name="username"/></div>
+      <div style="margin-bottom: 8px;"><input style="width: 150px; height: 24px; margin-bottom: 8px" type="password" placeholder="Пароль" name="password"/></div>
+      <div style="margin-bottom: 8px;"><input style="width: 150px; height: 24px; margin-bottom: 8px"type="submit" value="Войти"/></div>
+    </form>
+    <form th:action="@{/registration}" method="get">
+      <input style="width: 150px; height: 24px; margin-bottom: 8px" type="submit" value="Зарегистрироваться"/>
+    </form>
+
+  </div>
+
+</body>
+</html>

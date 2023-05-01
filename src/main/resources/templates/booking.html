@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Beerwaroff Booking</title>
+</head>
+<body>
+<div style="text-align:center; font-family: 'Times New Roman', Times, Serif; font-size: 32px;">
+  <a th:href="@{/hotels}">ОТЕЛИ</a>
+</div>
+<div th:object="${offer}">
+  <div>Дата заезда: <span th:text="${offer.getCheckInDate()}"></span></div>
+  <div>Дата выселения: <span th:text="${offer.getEvictionDate()}"></span></div>
+  <div>Для подтверждения заявки с вами свяжется менеджер.</div>
+</div>
+
+</body>
+</html>

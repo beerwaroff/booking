@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <title>Beerwaroff Booking</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link th:href = "@{/css/hotels/update.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="to_hotels"><a th:href="@{/hotels}">Отели</a></div>
+
+<div class="up_hotel">
+  <form th:method="PATCH" th:action="@{/hotels/update/{id}(id=${updatedHotel.getId()})}" th:object="${updatedHotel}">
+    <div class="hotel_img">
+      <img th:src="@{*{image?.path}}" width="400" heigh="250"/>
+    </div>
+    <span th:field="*{address}">
+      <input type="text" placeholder="Город" th:field="*{address.city}"/>
+      <input type="text" placeholder="Улица" th:field="*{address.street}"/>
+      <input type="text" placeholder="Дом" th:field="*{address.house}"/>
+    </span>
+    <span>
+      <input type="text" placeholder="Название отеля" th:field="*{name}"/>
+      <select type="text" placeholder="Количество звезд" th:field="*{numberOfStars}">
+        <option th:value="1" th:text="1"></option>
+        <option th:value="2" th:text="2"></option>
+        <option th:value="3" th:text="3"></option>
+        <option th:value="4" th:text="4"></option>
+        <option th:value="5" th:text="5"></option>
+      </select>
+    </span>
+    <input type="submit" value="Редактировать"/>
+    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+  </form>
+
+  <div class="upload_img">
+    <form method="post" th:action="@{/image/hotels/{id}(id=${updatedHotel.getId()})}" enctype="multipart/form-data">
+      <div class="form-group">
+        <input type="file" name="image" accept="image/*" class="form-control-file">
+      </div>
+      <button type="submit" class="btn btn-primary">Загрузить фотографию</button>
+    </form>
+  </div>
+
+</div>
+
+</body>
+</html>

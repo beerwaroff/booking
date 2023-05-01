@@ -1,0 +1,29 @@
+body {
+    font-family: 'Times New Roman', Times, Serif;
+    font-size: 16px;
+}
+
+h2 {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+
+.att_room div {
+    width: 400px;
+    height: 250opx;
+    margin: 0 auto;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.to_hotels {
+    text-transform: uppercase;
+    font-size: 24px;
+}
+
+.add_room {
+    text-align: center;
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
